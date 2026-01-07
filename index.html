@@ -1,51 +1,97 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="utf-8">
-    <title> Meine erste Webseite</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Shuffle Dance | Geschichte & Technik</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-    
 <body>
+
     <header>
-        <div style="color:rgb(43, 255, 0);text-align: center;font-size: 60px">
-        <p>Hallo Welt!</p></div>
-        <div style="text-align: center;font-size: 18px">
-        <p>Das ist mein erster Versuch einer Webseite und als Thema
-        habe ich <strong>The Melbourne Shuffle</strong> gewählt.</p></div>
-    </header>
-    
-    <main>
-        <div style="color:blueviolet;text-align: center;">
-        <p style="font-size: 40px;">The Melbourne Shuffle</p></div>
-        
-        <figure style="text-align: center">
-            <img src="Shuffle.jpg" alt="Shuffle tanzendes Mädchen">
-            <figcaption>Quelle: www.freepik.com</figcaption>
-        </figure>
-
-        <br>
-
-        <p style="font-size: 18px"><strong>Shuffle Dance</strong> entstand in den späten 1980er Jahren in <b>Melbourne, Australien</b> und ist eine sehr aktive Form des Tanzens. Der Tanz ist improvisiert und besteht darin, die Füsse wiederholt nach innen und dann nach aussen zu schieben, 
-        während die Arme im Takt des Rhytmus auf und ab oder von Seite zu Seite geschoben werden. Die Tanzform hilft beim <strong>Abbau von Stress</strong>, da es die Freisetzung von <strong>Endorphinen</strong> bewirkt. Es hilft zudem <strong>Stimmungsschwankungen vorzubeugen</strong>
-        und gibt das Gefühl von <strong>Zufriedenheit</strong> und <strong>Erfolg</strong>.</p>
-    
-        <br>
-
-        <p style="font-size: 18px"><strong>Shuffle Dance</strong> integriert einige Bewegungen aus anderen Tanzformen, wie zum Beispiel bestimmte Drehungen oder das Laufen auf der Stelle (Running Man). Außerdem gehören zu dem Shuffle Schritte, die dem <b>Twist</b> und dem <b>Moonwalk</b>
-        sehr ähnlich sind. Getanzt wird meistens zu einer Geschwindigkeit von 130-150 Taktschlägen pro Minute.</p>
-        
-        <br>
-
-        <div style="font-size: 18px; text-align: center;">
-        <a href="https://www.youtube.com/watch?v=vWq-mIxvH3k&list=RDvWq-mIxvH3k&start_radio=1&ab_channel=BestHit%26Dance">Shuffle Dance Video auf Youtube</a>
+        <div class="hero-text">
+            <h1 class="glow-text">The Shuffle Dance</h1>
+            <p class="tagline">More than just a move</p>
         </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#geschichte">Geschichte</a></li>
+            <li><a href="#vorteile">Bedeutung</a></li>
+            <li><a href="#technik">Technik</a></li>
+            <li><a href="#media">Inspiration</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="geschichte" class="text-section">
+            <h2 class="subtitle">Die historische Entwicklung</h2>
+            <p>
+                Der Melbourne Shuffle entstand in den späten 1980er Jahren in der Underground-Rave-Szene von Australien. In den verrauchten Lagerhallen entwickelten Jugendliche einen Stil, der sich fundamental von klassischem Disco-Tanz unterschied.
+            </p>
+            
+            <figure class="main-image">
+                <img src="img/Shuffle.jpg" alt="Shuffle Dance Performance">
+                <figcaption>Die Ästhetik des Melbourne Shuffle verbindet Kraft mit Schwerelosigkeit.</figcaption>
+            </figure>
+
+            <p>
+                Ursprünglich zu Hard Trance und Techno getanzt, wurde der Shuffle durch weite "Phat Pants" geprägt, die die schnellen Fußbewegungen optisch verstärkten. Heute ist er durch Social Media ein weltweites Phänomen geworden.
+            </p>
+        </section>
+
+        <section id="vorteile" class="text-section">
+            <h2 class="subtitle">Bedeutung für Körper und Geist</h2>
+            <p>
+                Shuffle Dance ist ein intensives Training. Die schnellen Bewegungen fördern die Koordination und führen zu einer massiven Ausschüttung von Endorphinen. Dies hilft aktiv beim Abbau von Stress und fördert die mentale Gesundheit.
+            </p>
+        </section>
+
+        <section id="technik" class="grid-section">
+            <h2 class="subtitle">Die technischen Grundpfeiler</h2>
+            <div class="grid-container">
+                <article class="card">
+                    <div class="card-img-container">
+                        <img src="img/running-man.gif" alt="Running Man">
+                    </div>
+                    <div class="card-content">
+                        <h3>The Running Man</h3>
+                        <p>Das Fundament: Ein simuliertes Laufen auf der Stelle, bei dem ein Bein angehoben wird.</p>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card-img-container">
+                        <img src="img/t-step.gif" alt="T-Step">
+                    </div>
+                    <div class="card-content">
+                        <h3>The T-Step</h3>
+                        <p>Eine seitliche Gleitbewegung. Die Füße bilden eine T-Form auf dem Boden.</p>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card-img-container">
+                        <img src="img/charleston.gif" alt="Charleston">
+                    </div>
+                    <div class="card-content">
+                        <h3>Charleston</h3>
+                        <p>Dynamische Drehungen und viel Energie, neu interpretiert für den Shuffle.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="media" class="video-container">
+            <h2 class="subtitle">Inspiration & Musik</h2>
+            <a href="https://www.youtube.com/watch?v=vWq-mIxvH3k" target="_blank" class="btn">Musikvideo ansehen</a>
+        </section>
     </main>
 
-    <br>
-
     <footer>
-    <p style="text-align: right;">&copy; 2025 by Daniela P.</p>
+        <p>&copy; 2026 by Daniela P. | Projektarbeit HTL Informatik</p>
     </footer>
+
 </body>
 </html>
-
