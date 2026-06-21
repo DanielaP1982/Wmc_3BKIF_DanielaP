@@ -126,6 +126,16 @@ blockquote {
     color: #ddd;
 }
 
+blockquote footer {
+    display: block;           
+    margin: 0;                
+    padding: 0;               
+    font-size: 0.8em;         
+    color: #aaa;              
+    text-align: right;        
+    font-style: normal;       
+}
+
 .main-image img {
     width: 100%;
     border-radius: 15px;
@@ -156,6 +166,7 @@ figcaption {
     overflow: hidden;
     border-bottom: 5px solid #333;
     transition: 0.4s;
+    text-align: center;
 }
 
 .card-img-container { height: 220px; overflow: hidden; }
@@ -169,6 +180,18 @@ figcaption {
 .card h3 { padding: 20px 20px 0; color: rgb(43, 255, 0); margin: 0; }
 .card p { padding: 10px 20px 25px; color: #ccc; }
 
+/* --- JAVASCRIPT STATE STYLES --- */
+.is-learned {
+    border-bottom: 5px solid blueviolet !important; 
+    background: rgba(138, 43, 226, 0.05) !important; 
+}
+
+.is-learned .learn-btn {
+    background: blueviolet !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 15px rgba(138, 43, 226, 0.6);
+}
+
 /* --- BUTTONS --- */
 .video-container { text-align: center; padding: 80px 20px; }
 .btn {
@@ -181,9 +204,17 @@ figcaption {
     font-weight: 900;
     text-transform: uppercase;
     transition: 0.3s;
+    border: none;
+    cursor: pointer;
 }
 
 .btn:hover { background: blueviolet; color: white; transform: scale(1.05); }
+
+.learn-btn {
+    display: block;          
+    width: fit-content;      
+    margin: 0 auto 25px auto; 
+}
 
 /* --- FOOTER --- */
 footer {
