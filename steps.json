@@ -1,1 +1,20 @@
-
+[
+  {
+    "id": "running-man",
+    "title": "The Running Man",
+    "image": "img/running-man.gif",
+    "description": "Das Fundament: Ein simuliertes Laufen auf der Stelle."
+  },
+  {
+    "id": "t-step",
+    "title": "The T-Step",
+    "image": "img/t-step.gif",
+    "description": "Seitliche Gleitbewegungen, die den Schwebeeffekt erzeugen."
+  },
+  {
+    "id": "charleston",
+    "title": "Charleston",
+    "image": "img/charleston.gif",
+    "description": "Klassische Drehungen, modern interpretiert."
+  }
+]
