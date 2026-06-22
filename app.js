@@ -2,7 +2,7 @@ import { getSavedStates, saveStepState } from './state.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const stepsContainer = document.getElementById('steps-container');
-    const radioContainer = document.getElementById('radio-container');
+    const beatsContainer = document.getElementById('beats-container'); // Saubere neue ID
 
     // 1. TECHNIK-SEITE LOGIK
     if (stepsContainer) {
@@ -89,53 +89,52 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 2. INSPIRATIONS-SEITE LOGIK
-    if (radioContainer) {
-        fetchRadioStations();
+    // 2. INSPIRATIONS-SEITE LOGIK (Mit umbenannter Funktion)
+    if (beatsContainer) {
+        fetchTrackPreviews();
     }
 });
 
-/* --- RADIO-FETCH MIT PROXY --- */
-async function fetchRadioStations() {
-    const container = document.getElementById('radio-container');
+/* --- ITUNES BEATS-FETCH (Semantisch sauber benannt) --- */
+async function fetchTrackPreviews() {
+    const container = document.getElementById('beats-container');
     if (!container) return; 
 
-    container.innerHTML = "<p style='color: #a0a5b5; text-align: center;'>Lade Sender...</p>";
+    container.innerHTML = "<p style='color: #a0a5b5; text-align: center;'>Lade Übungs-Beats...</p>";
     
-    // Proxy um CORS-Fehler zu umgehen
-    const proxy = "https://corsproxy.io/?";
-    const targetUrl = "https://all.api.radio-browser.info/json/stations/search?limit=3&hidebroken=true&order=clickcount&reverse=true&tagList=techno,house,dance";
-    const url = proxy + encodeURIComponent(targetUrl);
+    // Suche nach Electro House Songs
+    const url = "https://itunes.apple.com/search?term=electro+house&limit=3&entity=song";
     
     try {
         const response = await fetch(url);
         if (!response.ok) throw new Error(`HTTP Fehler! Status: ${response.status}`);
         
-        const stations = await response.json();
+        const data = await response.json();
         
-        if (stations.length === 0) {
-            container.innerHTML = "<p style='color: white; text-align: center;'>Keine Sender gefunden.</p>";
+        if (data.resultCount === 0) {
+            container.innerHTML = "<p style='color: white; text-align: center;'>Keine Tracks gefunden.</p>";
             return;
         }
 
         container.innerHTML = ""; 
 
-        stations.forEach(station => {
-            const radioCard = document.createElement("div");
-            radioCard.className = "radio-card";
+        data.results.forEach(track => {
+            const beatCard = document.createElement("div");
+            beatCard.className = "radio-card"; // Wir behalten vorerst die CSS-Klasse, damit das Styling greift!
             
-            // Genre wurde hier aus dem HTML-String entfernt
-            radioCard.innerHTML = `
-                <h3 class="radio-title">${station.name}</h3>
-                <p class="radio-meta">🌍 Land: ${station.country || "Unbekannt"}</p>
-                <audio controls src="${station.url_resolved}" style="width: 100%;"></audio>
+            // Reines Track-Design: Cover, Titel, Künstler, Land und Player
+            beatCard.innerHTML = `
+                <img src="${track.artworkUrl100.replace('100x100bb', '200x200bb')}" alt="Cover" style="width: 120px; height: 120px; border-radius: 10px; margin-bottom: 15px; border: 2px solid rgb(43, 255, 0);">
+                <h3 class="radio-title" title="${track.trackName}">${track.trackName}</h3>
+                <p class="radio-meta">👤 von ${track.artistName} | 🌍 ${track.country}</p>
+                <audio controls src="${track.previewUrl}" style="width: 100%;"></audio>
             `;
             
-            container.appendChild(radioCard);
+            container.appendChild(beatCard);
         });
 
     } catch (error) {
-        console.error("Radio-Fehler:", error);
-        container.innerHTML = "<p style='color: red; text-align: center;'>Fehler beim Laden der Sender.</p>";
+        console.error("iTunes-Fehler:", error);
+        container.innerHTML = "<p style='color: red; text-align: center;'>Beats konnten nicht geladen werden.</p>";
     }
 }
