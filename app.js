@@ -95,14 +95,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-/* --- OPTIMIERTER RADIO-FETCH --- */
+/* --- RADIO-FETCH --- */
 async function fetchRadioStations() {
     const container = document.getElementById('radio-container');
-    if (!container) return; // Sicherheitscheck
+    if (!container) return; 
 
     container.innerHTML = "<p style='color: #a0a5b5; text-align: center;'>Lade Sender...</p>";
     
-    // Wir nutzen eine breitere Suche und lassen die API die Arbeit machen
     const url = "https://all.api.radio-browser.info/json/stations/search?limit=3&hidebroken=true&order=clickcount&reverse=true&tagList=techno,house,dance";
     
     try {
@@ -116,13 +115,12 @@ async function fetchRadioStations() {
             return;
         }
 
-        container.innerHTML = ""; // Container leeren für die Ergebnisse
+        container.innerHTML = ""; 
 
         stations.forEach(station => {
             const radioCard = document.createElement("div");
             radioCard.className = "radio-card";
             
-            // Fallback für fehlende Genre-Tags
             const genre = station.tags ? station.tags.split(',')[0] : "Elektronisch";
             
             radioCard.innerHTML = `
