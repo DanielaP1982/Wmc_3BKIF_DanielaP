@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-/* --- ROBUSTER FETCH FÜR RADIO-API (Sicherheits-optimiert) --- */
+/* --- ROBUSTER FETCH FÜR RADIO-API (Ohne Ausblenden bei Fehlern) --- */
 async function fetchRadioStations() {
     const container = document.getElementById('radio-container');
     container.innerHTML = "<p style='color: #a0a5b5; grid-column: 1 / -1; text-align: center;'>Live-Sender werden geladen...</p>";
@@ -115,20 +115,17 @@ async function fetchRadioStations() {
             radioCard.className = "radio-card";
             const secureUrl = station.url_resolved.replace("http://", "https://");
             
-            // Sicherheitsprüfung: Prüft ob Tags vorhanden sind, bevor split aufgerufen wird
+            // Sicherheitsprüfung
             const displayGenre = station.tags ? station.tags.split(',')[0] : "Electronic";
             
             radioCard.innerHTML = `
                 <h3 class="radio-title">${station.name.trim()}</h3>
                 <p class="radio-meta">🌍 Genre: ${displayGenre} | Land: ${station.country || "Int."}</p>
-                <audio controls class="radio-player" src="${secureUrl}" preload="auto"></audio>
+                <audio controls class="radio-player" src="${secureUrl}" preload="none"></audio>
             `;
             
-            // Defekte Streams ausblenden
-            const audio = radioCard.querySelector('audio');
-            audio.onerror = () => {
-                radioCard.style.display = 'none';
-            };
+            // WICHTIG: Die onerror-Logik wurde hier komplett entfernt, 
+            // damit die Karte IMMER sichtbar bleibt!
             
             container.appendChild(radioCard);
             addedCount++;
