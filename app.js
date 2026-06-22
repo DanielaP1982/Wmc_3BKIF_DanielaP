@@ -2,7 +2,7 @@ import { getSavedStates, saveStepState } from './state.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const stepsContainer = document.getElementById('steps-container');
-    const beatsContainer = document.getElementById('beats-container'); // Saubere neue ID
+    const beatsContainer = document.getElementById('beats-container');
 
     // 1. TECHNIK-SEITE LOGIK
     if (stepsContainer) {
@@ -89,20 +89,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 2. INSPIRATIONS-SEITE LOGIK (Mit umbenannter Funktion)
+    // 2. INSPIRATIONS-SEITE LOGIK
     if (beatsContainer) {
         fetchTrackPreviews();
     }
 });
 
-/* --- ITUNES BEATS-FETCH (Semantisch sauber benannt) --- */
+/* --- ITUNES BEATS-FETCH --- */
 async function fetchTrackPreviews() {
     const container = document.getElementById('beats-container');
     if (!container) return; 
 
     container.innerHTML = "<p style='color: #a0a5b5; text-align: center;'>Lade Übungs-Beats...</p>";
     
-    // Suche nach Electro House Songs
     const url = "https://itunes.apple.com/search?term=electro+house&limit=3&entity=song";
     
     try {
@@ -120,14 +119,14 @@ async function fetchTrackPreviews() {
 
         data.results.forEach(track => {
             const beatCard = document.createElement("div");
-            beatCard.className = "radio-card"; // Wir behalten vorerst die CSS-Klasse, damit das Styling greift!
-            
-            // Reines Track-Design: Cover, Titel, Künstler, Land und Player
+            beatCard.className = "radio-card"; 
             beatCard.innerHTML = `
-                <img src="${track.artworkUrl100.replace('100x100bb', '200x200bb')}" alt="Cover" style="width: 120px; height: 120px; border-radius: 10px; margin-bottom: 15px; border: 2px solid rgb(43, 255, 0);">
-                <h3 class="radio-title" title="${track.trackName}">${track.trackName}</h3>
-                <p class="radio-meta">👤 von ${track.artistName} | 🌍 ${track.country}</p>
-                <audio controls src="${track.previewUrl}" style="width: 100%;"></audio>
+                <div style="display: flex; flex-direction: column; align-items: center; text-align: center; height: 100%; justify-content: space-between;">
+                    <img src="${track.artworkUrl100.replace('100x100bb', '150x150bb')}" alt="Cover" style="width: 100px; height: 100px; border-radius: 8px; margin-bottom: 10px; border: 2px solid rgb(43, 255, 0);">
+                    <h3 class="radio-title" title="${track.trackName}" style="font-size: 1.1rem; width: 100%; margin: 5px 0;">${track.trackName}</h3>
+                    <p class="radio-meta" style="margin: 0 0 15px 0; font-size: 0.85em;">👤 ${track.artistName}<br>🌍 ${track.country}</p>
+                    <audio controls src="${track.previewUrl}" style="width: 100%; max-width: 240px;"></audio>
+                </div>
             `;
             
             container.appendChild(beatCard);
