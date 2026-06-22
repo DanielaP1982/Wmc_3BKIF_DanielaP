@@ -146,7 +146,7 @@ async function fetchRadioStations() {
             radioCard.innerHTML = `
                 <h3 class="radio-title">${station.name.trim()}</h3>
                 <p class="radio-meta">🌍 Land: ${station.country || "International"}</p>
-                <audio controls class="radio-player" src="${secureUrl}" preload="none"></audio>
+                <audio controls class="radio-player" src="${secureUrl}" preload="auto"></audio>
             `;
             
             container.appendChild(radioCard);
