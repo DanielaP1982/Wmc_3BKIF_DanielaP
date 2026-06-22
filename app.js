@@ -95,38 +95,47 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-/* --- ROBUSTER RADIO-FETCH (Alle Sender bleiben sichtbar) --- */
+/* --- ROBUSTER FETCH FÜR RADIO-API (Sicherheits-optimiert) --- */
 async function fetchRadioStations() {
     const container = document.getElementById('radio-container');
-    container.innerHTML = "<p style='color: #a0a5b5; text-align: center;'>Sender werden geladen...</p>";
-    
-    // URL mit deinem gewünschten Genre-Mix
-    const url = "https://all.api.radio-browser.info/json/stations/search?tagList=dance,trance,techno&limit=3&hidebroken=true&order=clickcount&reverse=true&bitratemin=128";
+    container.innerHTML = "<p style='color: #a0a5b5; grid-column: 1 / -1; text-align: center;'>Live-Sender werden geladen...</p>";
     
     try {
+        const url = "https://all.api.radio-browser.info/json/stations/search?tagList=house,techno,dance,trance,electro,drumandbass&limit=15&hidebroken=true&order=clickcount&reverse=true&bitratemin=128";
+        
         const response = await fetch(url);
         const stations = await response.json();
         container.innerHTML = "";
 
-        if (stations.length === 0) throw new Error("Keine Sender gefunden.");
-
+        let addedCount = 0;
         stations.forEach(station => {
-            const secureUrl = station.url_resolved.replace("http://", "https://");
+            if (addedCount >= 3) return; 
+
             const radioCard = document.createElement("div");
             radioCard.className = "radio-card";
+            const secureUrl = station.url_resolved.replace("http://", "https://");
             
-            // Karte wird erstellt und bleibt immer im DOM
+            // Sicherheitsprüfung: Prüft ob Tags vorhanden sind, bevor split aufgerufen wird
+            const displayGenre = station.tags ? station.tags.split(',')[0] : "Electronic";
+            
             radioCard.innerHTML = `
                 <h3 class="radio-title">${station.name.trim()}</h3>
-                <p class="radio-meta">🌍 Land: ${station.country || "International"}</p>
-                <audio controls class="radio-player" src="${secureUrl}"></audio>
+                <p class="radio-meta">🌍 Genre: ${displayGenre} | Land: ${station.country || "Int."}</p>
+                <audio controls class="radio-player" src="${secureUrl}" preload="auto"></audio>
             `;
             
+            // Defekte Streams ausblenden
+            const audio = radioCard.querySelector('audio');
+            audio.onerror = () => {
+                radioCard.style.display = 'none';
+            };
+            
             container.appendChild(radioCard);
+            addedCount++;
         });
 
     } catch (error) {
-        console.error("Radio-Fehler:", error);
-        container.innerHTML = "<p style='color: #ff3333;'>Radiosender konnten nicht geladen werden.</p>";
+        console.error("Fehler beim Laden:", error);
+        container.innerHTML = "<p style='color: #ff3333;'>Radiosender aktuell nicht verfügbar.</p>";
     }
 }
