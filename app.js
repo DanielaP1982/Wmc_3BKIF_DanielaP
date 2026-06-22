@@ -95,43 +95,50 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-/* --- ROBUSTER FETCH FÜR RADIO-API --- */
+/* --- ROBUSTER RADIO-FETCH (Ohne Länderfilter) --- */
 async function fetchRadioStations() {
     const container = document.getElementById('radio-container');
-    container.innerHTML = "<p style='color: #a0a5b5; grid-column: 1 / -1; text-align: center;'>Live-Sender werden geladen...</p>";
+    container.innerHTML = "<p style='color: #a0a5b5; text-align: center;'>Sender werden geladen...</p>";
+    const url = "https://all.api.radio-browser.info/json/stations/search?tagList=dance,trance,techno&limit=20&hidebroken=true&order=clickcount&reverse=true&bitratemin=128";
     
     try {
-        // Lade 10 Sender, um defekte automatisch auszugleichen
-        const response = await fetch("https://all.api.radio-browser.info/json/stations/search?tagList=dance,trance,techno,house&limit=10&hidebroken=true&order=clickcount&reverse=true&bitratemin=128");
+        const response = await fetch(url);
         const stations = await response.json();
         container.innerHTML = "";
 
         let addedCount = 0;
-        stations.forEach(station => {
-            if (addedCount >= 3) return; // Zeige nur die ersten 3 funktionierenden
+        
+        for (const station of stations) {
+            if (addedCount >= 3) break;
 
+            const secureUrl = station.url_resolved.replace("http://", "https://");
             const radioCard = document.createElement("div");
             radioCard.className = "radio-card";
-            const secureUrl = station.url_resolved.replace("http://", "https://");
             
             radioCard.innerHTML = `
                 <h3 class="radio-title">${station.name.trim()}</h3>
                 <p class="radio-meta">🌍 Land: ${station.country || "International"}</p>
-                <audio controls class="radio-player" src="${secureUrl}" preload="auto"></audio>
+                <audio controls class="radio-player" src="${secureUrl}" preload="none"></audio>
             `;
             
-            // Defekte Streams ausblenden
             const audio = radioCard.querySelector('audio');
-            audio.onerror = () => {
-                radioCard.style.display = 'none';
-            };
+            
+            // Timer: Wenn nach 6 Sekunden nichts spielt, Karte entfernen
+            const watchdog = setTimeout(() => {
+                if (audio.currentTime === 0) radioCard.style.display = 'none';
+            }, 6000);
+
+            audio.onplay = () => clearTimeout(watchdog);
+            audio.onerror = () => { radioCard.style.display = 'none'; };
             
             container.appendChild(radioCard);
             addedCount++;
-        });
+        }
+        
+        if (addedCount === 0) throw new Error("Keine stabilen Sender gefunden.");
 
     } catch (error) {
-        console.error("Fehler beim Laden:", error);
-        container.innerHTML = "<p style='color: #ff3333;'>Radiosender aktuell nicht verfügbar.</p>";
+        console.error("Radio-Fehler:", error);
+        container.innerHTML = "<p style='color: #ff3333;'>Radiosender konnten nicht geladen werden.</p>";
     }
 }
