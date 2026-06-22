@@ -95,11 +95,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-/* --- ROBUSTER RADIO-FETCH (Ohne Länderfilter) --- */
+/* --- ROBUSTER RADIO-FETCH (Energetische Auswahl) --- */
 async function fetchRadioStations() {
     const container = document.getElementById('radio-container');
     container.innerHTML = "<p style='color: #a0a5b5; text-align: center;'>Sender werden geladen...</p>";
-    const url = "https://all.api.radio-browser.info/json/stations/search?tagList=house,dance,techno&limit=10&hidebroken=true&order=clickcount&reverse=true&bitratemin=128";
+    // URL auf tagList aktualisiert für Dance, Trance und Techno
+    const url = "https://all.api.radio-browser.info/json/stations/search?tagList=dance,trance,techno&limit=10&hidebroken=true&order=clickcount&reverse=true&bitratemin=128";
     
     try {
         const response = await fetch(url);
