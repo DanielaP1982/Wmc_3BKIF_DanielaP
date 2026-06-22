@@ -101,8 +101,8 @@ async function fetchRadioStations() {
     container.innerHTML = "<p style='color: #a0a5b5; grid-column: 1 / -1; text-align: center;'>Live-Sender werden geladen...</p>";
     
     try {
-        // Lade 5 Sender, um defekte automatisch auszugleichen
-        const response = await fetch("https://all.api.radio-browser.info/json/stations/search?tag=house&limit=5&hidebroken=true&order=clickcount&reverse=true&bitratemin=128");
+        // Lade 10 Sender, um defekte automatisch auszugleichen
+        const response = await fetch("https://all.api.radio-browser.info/json/stations/search?tag=house&limit=10&hidebroken=true&order=clickcount&reverse=true&bitratemin=128");
         const stations = await response.json();
         container.innerHTML = "";
 
