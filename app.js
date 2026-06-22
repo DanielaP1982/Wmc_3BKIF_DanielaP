@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
 async function fetchRadioStations() {
     const container = document.getElementById('radio-container');
     container.innerHTML = "<p style='color: #a0a5b5; text-align: center;'>Sender werden geladen...</p>";
-    const url = "https://all.api.radio-browser.info/json/stations/search?tagList=techno,dance,electronic&limit=15&hidebroken=true&order=clickcount&reverse=true&bitratemin=128";
+    const url = "https://all.api.radio-browser.info/json/stations/search?tagList=house,dance,techno&limit=10&hidebroken=true&order=clickcount&reverse=true&bitratemin=128";
     
     try {
         const response = await fetch(url);
