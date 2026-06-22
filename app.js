@@ -1,4 +1,4 @@
-import { getSavedStates, saveStepState } from 'state.js';
+import { getSavedStates, saveStepState } from './state.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const stepsContainer = document.getElementById('steps-container');
