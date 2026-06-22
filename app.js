@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let allSteps = [];
     
-    let showOnlyUnlearned = localStorage.getItem('showOnlyUnlearned') === 'true';
+    let showOnlyUnlearned = JSON.parse(localStorage.getItem('showOnlyUnlearned')) || false;
 
     const filterBtn = document.getElementById('toggle-filter-btn');
 
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const card = document.createElement('article');
             card.className = 'card';
-            card.id = step.id
+            card.id = step.id; 
             
             const imgContainer = document.createElement('div');
             imgContainer.className = 'card-img-container';
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         filterBtn.addEventListener('click', () => {
             showOnlyUnlearned = !showOnlyUnlearned;
             
-            localStorage.setItem('showOnlyUnlearned', showOnlyUnlearned);
+            localStorage.setItem('showOnlyUnlearned', JSON.stringify(showOnlyUnlearned));
             
             filterBtn.textContent = showOnlyUnlearned ? 'Alle Schritte anzeigen' : 'Nur ungelernte Schritte anzeigen';
             renderSteps(); 
