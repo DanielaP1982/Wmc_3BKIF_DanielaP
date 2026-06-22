@@ -95,14 +95,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-/* --- RADIO-FETCH --- */
+/* --- RADIO-FETCH MIT PROXY --- */
 async function fetchRadioStations() {
     const container = document.getElementById('radio-container');
     if (!container) return; 
 
     container.innerHTML = "<p style='color: #a0a5b5; text-align: center;'>Lade Sender...</p>";
     
-    const url = "https://all.api.radio-browser.info/json/stations/search?limit=3&hidebroken=true&order=clickcount&reverse=true&tagList=techno,house,dance";
+    // Proxy um CORS-Fehler zu umgehen
+    const proxy = "https://corsproxy.io/?";
+    const targetUrl = "https://all.api.radio-browser.info/json/stations/search?limit=3&hidebroken=true&order=clickcount&reverse=true&tagList=techno,house,dance";
+    const url = proxy + encodeURIComponent(targetUrl);
     
     try {
         const response = await fetch(url);
@@ -121,12 +124,11 @@ async function fetchRadioStations() {
             const radioCard = document.createElement("div");
             radioCard.className = "radio-card";
             
-            const genre = station.tags ? station.tags.split(',')[0] : "Elektronisch";
-            
+            // Genre wurde hier aus dem HTML-String entfernt
             radioCard.innerHTML = `
                 <h3 class="radio-title">${station.name}</h3>
-                <p class="radio-meta">🌍 Land: ${station.country || "Unbekannt"} | Genre: ${genre}</p>
-                <audio controls src="${station.url_resolved}"></audio>
+                <p class="radio-meta">🌍 Land: ${station.country || "Unbekannt"}</p>
+                <audio controls src="${station.url_resolved}" style="width: 100%;"></audio>
             `;
             
             container.appendChild(radioCard);
