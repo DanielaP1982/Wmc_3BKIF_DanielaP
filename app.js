@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('showOnlyUnlearned', showOnlyUnlearned);
                 
                 filterBtn.textContent = showOnlyUnlearned ? 'Alle Schritte anzeigen' : 'Nur ungelernte Schritte anzeigen';
-                renderSteps(); // Löst das Löschen und Neu-Erzeugen der Nodes aus
+                renderSteps(); 
             });
         }
     }
@@ -121,14 +121,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-/* --- ASYNCHRONER FETCH FÜR DIE RADIO-API --- */
+/* --- ASYNCHRONER FETCH FÜR DIE RADIO-API (Optimiert für GitHub Pages) --- */
 async function fetchRadioStations() {
     const container = document.getElementById('radio-container');
     
     container.innerHTML = "<p style='color: #a0a5b5; grid-column: 1 / -1; text-align: center;'>Live-Sender werden geladen...</p>";
     
     try {
-        const response = await fetch("https://de1.api.radio-browser.info/json/stations/search?tag=house&limit=3&hidebroken=true&order=clickcount&reverse=true");
+        const response = await fetch("https://all.api.radio-browser.info/json/stations/search?tag=house&limit=3&hidebroken=true&order=clickcount&reverse=true");
         
         if (!response.ok) {
             throw new Error("API-Verbindungsfehler");
@@ -141,10 +141,12 @@ async function fetchRadioStations() {
             const radioCard = document.createElement("div");
             radioCard.className = "radio-card";
             
+            const secureUrl = station.url_resolved.replace("http://", "https://");
+            
             radioCard.innerHTML = `
                 <h3 class="radio-title">${station.name.trim()}</h3>
                 <p class="radio-meta">🌍 Land: ${station.country || "International"}</p>
-                <audio controls class="radio-player" src="${station.url_resolved}" preload="none"></audio>
+                <audio controls class="radio-player" src="${secureUrl}" preload="none"></audio>
             `;
             
             container.appendChild(radioCard);
