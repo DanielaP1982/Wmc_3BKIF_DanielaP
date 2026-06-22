@@ -30,7 +30,7 @@ header {
 
 .glow-text {
     color: #ffffff;
-    font-size: clamp(35px, 8vw, 75px); 
+    font-size: 65px; 
     margin: 0;
     text-transform: uppercase;
     font-weight: 900;
@@ -45,7 +45,7 @@ header {
     text-transform: uppercase;
     letter-spacing: 10px;
     font-weight: 400;
-    font-size: clamp(14px, 2.5vw, 24px); 
+    font-size: 22px; 
     margin-top: 15px;
 }
 
@@ -227,4 +227,6 @@ footer {
 /* --- MOBILE --- */
 @media (max-width: 600px) {
     nav ul { flex-direction: column; align-items: center; gap: 10px; }
+    .glow-text { font-size: 35px; letter-spacing: 2px; }
+    .tagline { font-size: 14px; letter-spacing: 5px; }
 }
