@@ -95,44 +95,47 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-/* --- ROBUSTER FETCH FÜR RADIO-API (Ohne Ausblenden bei Fehlern) --- */
+/* --- OPTIMIERTER RADIO-FETCH --- */
 async function fetchRadioStations() {
     const container = document.getElementById('radio-container');
-    container.innerHTML = "<p style='color: #a0a5b5; grid-column: 1 / -1; text-align: center;'>Live-Sender werden geladen...</p>";
+    if (!container) return; // Sicherheitscheck
+
+    container.innerHTML = "<p style='color: #a0a5b5; text-align: center;'>Lade Sender...</p>";
+    
+    // Wir nutzen eine breitere Suche und lassen die API die Arbeit machen
+    const url = "https://all.api.radio-browser.info/json/stations/search?limit=3&hidebroken=true&order=clickcount&reverse=true&tagList=techno,house,dance";
     
     try {
-        const url = "https://all.api.radio-browser.info/json/stations/search?tagList=house,techno,dance,trance,electro,drumandbass&limit=15&hidebroken=true&order=clickcount&reverse=true&bitratemin=128";
-        
         const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP Fehler! Status: ${response.status}`);
+        
         const stations = await response.json();
-        container.innerHTML = "";
+        
+        if (stations.length === 0) {
+            container.innerHTML = "<p style='color: white; text-align: center;'>Keine Sender gefunden.</p>";
+            return;
+        }
 
-        let addedCount = 0;
+        container.innerHTML = ""; // Container leeren für die Ergebnisse
+
         stations.forEach(station => {
-            if (addedCount >= 3) return; 
-
             const radioCard = document.createElement("div");
             radioCard.className = "radio-card";
-            const secureUrl = station.url_resolved.replace("http://", "https://");
             
-            // Sicherheitsprüfung
-            const displayGenre = station.tags ? station.tags.split(',')[0] : "Electronic";
+            // Fallback für fehlende Genre-Tags
+            const genre = station.tags ? station.tags.split(',')[0] : "Elektronisch";
             
             radioCard.innerHTML = `
-                <h3 class="radio-title">${station.name.trim()}</h3>
-                <p class="radio-meta">🌍 Genre: ${displayGenre} | Land: ${station.country || "Int."}</p>
-                <audio controls class="radio-player" src="${secureUrl}" preload="none"></audio>
+                <h3 class="radio-title">${station.name}</h3>
+                <p class="radio-meta">🌍 Land: ${station.country || "Unbekannt"} | Genre: ${genre}</p>
+                <audio controls src="${station.url_resolved}"></audio>
             `;
             
-            // WICHTIG: Die onerror-Logik wurde hier komplett entfernt, 
-            // damit die Karte IMMER sichtbar bleibt!
-            
             container.appendChild(radioCard);
-            addedCount++;
         });
 
     } catch (error) {
-        console.error("Fehler beim Laden:", error);
-        container.innerHTML = "<p style='color: #ff3333;'>Radiosender aktuell nicht verfügbar.</p>";
+        console.error("Radio-Fehler:", error);
+        container.innerHTML = "<p style='color: red; text-align: center;'>Fehler beim Laden der Sender.</p>";
     }
 }
