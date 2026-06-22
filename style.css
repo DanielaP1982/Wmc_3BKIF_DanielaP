@@ -182,11 +182,10 @@ figcaption {
 
 /* --- JAVASCRIPT STATE STYLES --- */
 .is-learned {
-    border-bottom: 5px solid blueviolet !important; /* Ändert den unteren Rand der Card auf dein Navigations-Lila */
-    background: rgba(138, 43, 226, 0.05) !important; /* Gibt der Card einen ganz zarten lila Schimmer */
+    border-bottom: 5px solid blueviolet !important; 
+    background: rgba(138, 43, 226, 0.05) !important; 
 }
 
-/* Macht den Button innerhalb einer gelernten Card dauerhaft lila, wenn abgehakt */
 .is-learned .learn-btn {
     background: blueviolet !important;
     color: #ffffff !important;
@@ -201,14 +200,13 @@ figcaption {
 
 #radio-container {
     display: grid;
-    /* Nutzt exakt dasselbe responsive Grid-System wie deine Technik-Karten */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
     padding: 20px;
 }
 
 .radio-card {
-    background: #2a2d37; /* Exakt dasselbe edle Karten-Dunkelgrau */
+    background: #2a2d37; 
     border-radius: 15px;
     padding: 30px 20px;
     border-bottom: 5px solid #333;
@@ -216,19 +214,18 @@ figcaption {
     text-align: center;
 }
 
-/* Identischer, flüssiger Hover-Effekt wie bei den Technik-Karten */
 .radio-card:hover {
     transform: translateY(-8px);
     border-bottom-color: rgb(43, 255, 0);
 }
 
 .radio-title {
-    color: rgb(43, 255, 0); /* Dein charakteristisches Neongrün */
+    color: rgb(43, 255, 0); 
     margin: 0 0 10px 0;
     font-size: 1.25rem;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; /* Kürzt überlang fallende Sendernamen elegant mit ... ab */
+    text-overflow: ellipsis; 
 }
 
 .radio-meta {
