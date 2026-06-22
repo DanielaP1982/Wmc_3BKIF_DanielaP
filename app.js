@@ -102,7 +102,7 @@ async function fetchRadioStations() {
     
     try {
         // Lade 10 Sender, um defekte automatisch auszugleichen
-        const response = await fetch("https://all.api.radio-browser.info/json/stations/search?tag=dance&limit=10&hidebroken=true&order=clickcount&reverse=true&bitratemin=128");
+        const response = await fetch("https://all.api.radio-browser.info/json/stations/search?tag=techno&limit=10&hidebroken=true&order=clickcount&reverse=true&bitratemin=128");
         const stations = await response.json();
         container.innerHTML = "";
 
