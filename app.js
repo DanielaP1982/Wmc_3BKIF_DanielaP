@@ -95,48 +95,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-/* --- ROBUSTER RADIO-FETCH (Energetische Auswahl) --- */
+/* --- ROBUSTER RADIO-FETCH (Alle Sender bleiben sichtbar) --- */
 async function fetchRadioStations() {
     const container = document.getElementById('radio-container');
     container.innerHTML = "<p style='color: #a0a5b5; text-align: center;'>Sender werden geladen...</p>";
-    // URL auf tagList aktualisiert für Dance, Trance und Techno
-    const url = "https://all.api.radio-browser.info/json/stations/search?tagList=dance,trance,techno&limit=10&hidebroken=true&order=clickcount&reverse=true&bitratemin=128";
+    
+    // URL mit deinem gewünschten Genre-Mix
+    const url = "https://all.api.radio-browser.info/json/stations/search?tagList=dance,trance,techno&limit=3&hidebroken=true&order=clickcount&reverse=true&bitratemin=128";
     
     try {
         const response = await fetch(url);
         const stations = await response.json();
         container.innerHTML = "";
 
-        let addedCount = 0;
-        
-        for (const station of stations) {
-            if (addedCount >= 3) break;
+        if (stations.length === 0) throw new Error("Keine Sender gefunden.");
 
+        stations.forEach(station => {
             const secureUrl = station.url_resolved.replace("http://", "https://");
             const radioCard = document.createElement("div");
             radioCard.className = "radio-card";
             
+            // Karte wird erstellt und bleibt immer im DOM
             radioCard.innerHTML = `
                 <h3 class="radio-title">${station.name.trim()}</h3>
                 <p class="radio-meta">🌍 Land: ${station.country || "International"}</p>
-                <audio controls class="radio-player" src="${secureUrl}" preload="none"></audio>
+                <audio controls class="radio-player" src="${secureUrl}"></audio>
             `;
             
-            const audio = radioCard.querySelector('audio');
-            
-            // Timer: Wenn nach 6 Sekunden nichts spielt, Karte entfernen
-            const watchdog = setTimeout(() => {
-                if (audio.currentTime === 0) radioCard.style.display = 'none';
-            }, 6000);
-
-            audio.onplay = () => clearTimeout(watchdog);
-            audio.onerror = () => { radioCard.style.display = 'none'; };
-            
             container.appendChild(radioCard);
-            addedCount++;
-        }
-        
-        if (addedCount === 0) throw new Error("Keine stabilen Sender gefunden.");
+        });
 
     } catch (error) {
         console.error("Radio-Fehler:", error);
